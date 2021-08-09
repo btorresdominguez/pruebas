@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DBModelStoreContainer" CdmEntityContainer="BPMEntities">
+    <FunctionImportMapping FunctionImportName="Sp_AddBank" FunctionName="DBModel.Store.Sp_AddBank" />
+    <FunctionImportMapping FunctionImportName="Sp_AddClient" FunctionName="DBModel.Store.Sp_AddClient" />
+    <FunctionImportMapping FunctionImportName="Sp_EditBank" FunctionName="DBModel.Store.Sp_EditBank" />
+    <FunctionImportMapping FunctionImportName="Sp_EditClient" FunctionName="DBModel.Store.Sp_EditClient" />
+    <FunctionImportMapping FunctionImportName="Sp_GetBanks" FunctionName="DBModel.Store.Sp_GetBanks">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="DBModel.Sp_GetBanks_Result">
+          <ScalarProperty Name="IdBanco" ColumnName="IdBanco" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="NameState" ColumnName="NameState" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Sp_GetClients" FunctionName="DBModel.Store.Sp_GetClients">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="DBModel.Sp_GetClients_Result">
+          <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="NameState" ColumnName="NameState" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Sp_GetTipos" FunctionName="DBModel.Store.Sp_GetTipos">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="DBModel.Sp_GetTipos_Result">
+          <ScalarProperty Name="IdTipo" ColumnName="IdTipo" />
+          <ScalarProperty Name="TipoMovimiento" ColumnName="TipoMovimiento" />
+          <ScalarProperty Name="NameState" ColumnName="NameState" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Sp_RemoveBank" FunctionName="DBModel.Store.Sp_RemoveBank" />
+    <FunctionImportMapping FunctionImportName="Sp_RemoveClient" FunctionName="DBModel.Store.Sp_RemoveClient" />
+    <FunctionImportMapping FunctionImportName="Sp_RemoveCuenta" FunctionName="DBModel.Store.Sp_RemoveCuenta" />
+    <EntitySetMapping Name="Banco">
+      <EntityTypeMapping TypeName="DBModel.Banco">
+        <MappingFragment StoreEntitySet="Banco">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="IdBanco" ColumnName="IdBanco" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Cliente">
+      <EntityTypeMapping TypeName="DBModel.Cliente">
+        <MappingFragment StoreEntitySet="Cliente">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Cuenta">
+      <EntityTypeMapping TypeName="DBModel.Cuenta">
+        <MappingFragment StoreEntitySet="Cuenta">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="IdMovimiento" ColumnName="IdMovimiento" />
+          <ScalarProperty Name="IdCuenta" ColumnName="IdCuenta" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Movimientos">
+      <EntityTypeMapping TypeName="DBModel.Movimientos">
+        <MappingFragment StoreEntitySet="Movimientos">
+          <ScalarProperty Name="Cuenta" ColumnName="Cuenta" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Banco" ColumnName="Banco" />
+          <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+          <ScalarProperty Name="GMF" ColumnName="GMF" />
+          <ScalarProperty Name="Valor_Retiro" ColumnName="Valor_Retiro" />
+          <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+          <ScalarProperty Name="FechaMovimiento" ColumnName="FechaMovimiento" />
+          <ScalarProperty Name="CuentaOrigen" ColumnName="CuentaOrigen" />
+          <ScalarProperty Name="IdMovimiento" ColumnName="IdMovimiento" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tipo_Transaccion">
+      <EntityTypeMapping TypeName="DBModel.Tipo_Transaccion">
+        <MappingFragment StoreEntitySet="Tipo_Transaccion">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="TipoMovimiento" ColumnName="TipoMovimiento" />
+          <ScalarProperty Name="IdTipo" ColumnName="IdTipo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Transacciones">
+      <EntityTypeMapping TypeName="DBModel.Transacciones">
+        <MappingFragment StoreEntitySet="Transacciones">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="IdCuenta" ColumnName="IdCuenta" />
+          <ScalarProperty Name="IdTipo" ColumnName="IdTipo" />
+          <ScalarProperty Name="IdBanco" ColumnName="IdBanco" />
+          <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+          <ScalarProperty Name="GMF" ColumnName="GMF" />
+          <ScalarProperty Name="Valor_Retiro" ColumnName="Valor_Retiro" />
+          <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+          <ScalarProperty Name="CuentaOrigen" ColumnName="CuentaOrigen" />
+          <ScalarProperty Name="IdMovimiento" ColumnName="IdMovimiento" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="Sp_AddCuenta" FunctionName="DBModel.Store.Sp_AddCuenta" />
+    <FunctionImportMapping FunctionImportName="Sp_Retirar" FunctionName="DBModel.Store.Sp_Retirar" />
+    <FunctionImportMapping FunctionImportName="Sp_Transferir" FunctionName="DBModel.Store.Sp_Transferir" />
+    <FunctionImportMapping FunctionImportName="Sp_GetCuenta" FunctionName="DBModel.Store.Sp_GetCuenta">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="DBModel.Sp_GetCuenta_Result">
+          <ScalarProperty Name="CuentaOrigen" ColumnName="CuentaOrigen" />
+          <ScalarProperty Name="IdMovimiento" ColumnName="IdMovimiento" />
+          <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+          <ScalarProperty Name="Valor_Retiro" ColumnName="Valor_Retiro" />
+          <ScalarProperty Name="GMF" ColumnName="GMF" />
+          <ScalarProperty Name="NameCliente" ColumnName="NameCliente" />
+          <ScalarProperty Name="NameBanco" ColumnName="NameBanco" />
+          <ScalarProperty Name="NameTipo" ColumnName="NameTipo" />
+          <ScalarProperty Name="NameCuenta" ColumnName="NameCuenta" />
+          <ScalarProperty Name="NameState" ColumnName="NameState" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Sp_GetCuentaTransferir" FunctionName="DBModel.Store.Sp_GetCuentaTransferir">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="DBModel.Sp_GetCuentaTransferir_Result">
+          <ScalarProperty Name="IdCuenta" ColumnName="IdCuenta" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="NameState" ColumnName="NameState" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Sp_EditCuenta" FunctionName="DBModel.Store.Sp_EditCuenta" />
+    <FunctionImportMapping FunctionImportName="Sp_GetReporte" FunctionName="DBModel.Store.Sp_GetReporte">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="DBModel.Sp_GetReporte_Result">
+          <ScalarProperty Name="CLIENTE" ColumnName="CLIENTE" />
+          <ScalarProperty Name="ORIGEN" ColumnName="ORIGEN" />
+          <ScalarProperty Name="TIPO_OPERACION" ColumnName="TIPO_OPERACION" />
+          <ScalarProperty Name="SALDO" ColumnName="SALDO" />
+          <ScalarProperty Name="VALOR_RETIRO" ColumnName="VALOR_RETIRO" />
+          <ScalarProperty Name="VALOR_GMF" ColumnName="VALOR_GMF" />
+          <ScalarProperty Name="BANCO" ColumnName="BANCO" />
+          <ScalarProperty Name="CUENTA_DESTINO" ColumnName="CUENTA_DESTINO" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

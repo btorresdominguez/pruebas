@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Banco">
+    <Key>
+      <PropertyRef Name="IdBanco" />
+    </Key>
+    <Property Name="IdBanco" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="200" />
+    <Property Name="Estado" Type="bit" />
+  </EntityType>
+  <EntityType Name="Cliente">
+    <Key>
+      <PropertyRef Name="IdCliente" />
+    </Key>
+    <Property Name="IdCliente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="200" />
+    <Property Name="Estado" Type="bit" />
+  </EntityType>
+  <EntityType Name="Cuenta">
+    <Key>
+      <PropertyRef Name="IdCuenta" />
+    </Key>
+    <Property Name="IdCuenta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdMovimiento" Type="int" />
+    <Property Name="Nombre" Type="varchar" MaxLength="200" />
+    <Property Name="Estado" Type="bit" />
+  </EntityType>
+  <EntityType Name="Movimientos">
+    <Key>
+      <PropertyRef Name="IdMovimiento" />
+    </Key>
+    <Property Name="IdMovimiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CuentaOrigen" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="FechaMovimiento" Type="datetime" Nullable="false" />
+    <Property Name="Saldo" Type="bigint" />
+    <Property Name="Valor_Retiro" Type="bigint" />
+    <Property Name="GMF" Type="bigint" />
+    <Property Name="Cliente" Type="int" />
+    <Property Name="Banco" Type="int" />
+    <Property Name="Tipo" Type="int" />
+    <Property Name="Cuenta" Type="int" />
+  </EntityType>
+  <EntityType Name="Tipo_Transaccion">
+    <Key>
+      <PropertyRef Name="IdTipo" />
+    </Key>
+    <Property Name="IdTipo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TipoMovimiento" Type="varchar" MaxLength="200" />
+    <Property Name="Estado" Type="bit" />
+  </EntityType>
+  <EntityType Name="Transacciones">
+    <Key>
+      <PropertyRef Name="IdMovimiento" />
+    </Key>
+    <Property Name="IdMovimiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CuentaOrigen" Type="varchar" MaxLength="200" />
+    <Property Name="Saldo" Type="bigint" />
+    <Property Name="Valor_Retiro" Type="bigint" />
+    <Property Name="GMF" Type="bigint" />
+    <Property Name="IdCliente" Type="int" />
+    <Property Name="IdBanco" Type="int" />
+    <Property Name="IdTipo" Type="int" />
+    <Property Name="IdCuenta" Type="int" />
+    <Property Name="Estado" Type="bit" />
+  </EntityType>
+  <Association Name="FK_Cuenta_Banco">
+    <End Role="Banco" Type="Self.Banco" Multiplicity="0..1" />
+    <End Role="Transacciones" Type="Self.Transacciones" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Banco">
+        <PropertyRef Name="IdBanco" />
+      </Principal>
+      <Dependent Role="Transacciones">
+        <PropertyRef Name="IdBanco" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cuenta_Cliente">
+    <End Role="Cliente" Type="Self.Cliente" Multiplicity="0..1" />
+    <End Role="Transacciones" Type="Self.Transacciones" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cliente">
+        <PropertyRef Name="IdCliente" />
+      </Principal>
+      <Dependent Role="Transacciones">
+        <PropertyRef Name="IdCliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cuenta_Tipo">
+    <End Role="Tipo_Transaccion" Type="Self.Tipo_Transaccion" Multiplicity="0..1" />
+    <End Role="Transacciones" Type="Self.Transacciones" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tipo_Transaccion">
+        <PropertyRef Name="IdTipo" />
+      </Principal>
+      <Dependent Role="Transacciones">
+        <PropertyRef Name="IdTipo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="Sp_AddBank" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Nombre" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Sp_AddClient" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Nombre" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Sp_AddCuenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CuentaOrigen" Type="varchar" Mode="In" />
+    <Parameter Name="Saldo" Type="int" Mode="In" />
+    <Parameter Name="Valor_Retiro" Type="int" Mode="In" />
+    <Parameter Name="GMF" Type="int" Mode="In" />
+    <Parameter Name="IdCliente" Type="int" Mode="In" />
+    <Parameter Name="IdBanco" Type="int" Mode="In" />
+    <Parameter Name="IdTipo" Type="int" Mode="In" />
+    <Parameter Name="IdCuenta" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Sp_EditBank" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+    <Parameter Name="Nombre" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Sp_EditClient" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+    <Parameter Name="Nombre" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Sp_EditCuenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+    <Parameter Name="CuentaOrigen" Type="varchar" Mode="In" />
+    <Parameter Name="Saldo" Type="int" Mode="In" />
+    <Parameter Name="Valor_Retiro" Type="int" Mode="In" />
+    <Parameter Name="GMF" Type="int" Mode="In" />
+    <Parameter Name="IdCliente" Type="int" Mode="In" />
+    <Parameter Name="IdBanco" Type="int" Mode="In" />
+    <Parameter Name="IdTipo" Type="int" Mode="In" />
+    <Parameter Name="IdCuenta" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Sp_GetBanks" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="Sp_GetClients" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="Sp_GetCuenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="Sp_GetCuentaTransferir" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="Sp_GetReporte" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="initialDate" Type="datetime" Mode="In" />
+    <Parameter Name="finalDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="Sp_GetTipos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="Sp_RemoveBank" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Sp_RemoveClient" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Sp_RemoveCuenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Sp_Retirar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdMovimiento" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Sp_Transferir" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdMovimiento" Type="int" Mode="In" />
+  </Function>
+  <EntityContainer Name="DBModelStoreContainer">
+    <EntitySet Name="Banco" EntityType="Self.Banco" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Cuenta" EntityType="Self.Cuenta" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Movimientos" EntityType="Self.Movimientos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tipo_Transaccion" EntityType="Self.Tipo_Transaccion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Transacciones" EntityType="Self.Transacciones" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Cuenta_Banco" Association="Self.FK_Cuenta_Banco">
+      <End Role="Banco" EntitySet="Banco" />
+      <End Role="Transacciones" EntitySet="Transacciones" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cuenta_Cliente" Association="Self.FK_Cuenta_Cliente">
+      <End Role="Cliente" EntitySet="Cliente" />
+      <End Role="Transacciones" EntitySet="Transacciones" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cuenta_Tipo" Association="Self.FK_Cuenta_Tipo">
+      <End Role="Tipo_Transaccion" EntitySet="Tipo_Transaccion" />
+      <End Role="Transacciones" EntitySet="Transacciones" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

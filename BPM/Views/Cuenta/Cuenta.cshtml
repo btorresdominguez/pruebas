@@ -1,0 +1,207 @@
+﻿@using BPM.Dto.Configuration
+@model CuentaCreationDto
+
+@{
+    ViewBag.Title = "Cuenta";
+}
+
+
+@section scripts{
+    <script>
+        var table = $('#bootstrap-data-table').DataTable({
+            language: {
+                "decimal": "",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ RETIROS",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            }
+
+        })
+    </script>
+}
+
+<script src="~/Scripts/User/User.js"></script>
+
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Retiros</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="~/Home/Index">Configuración</a></li>
+                            <li><a href="~/Cuenta/Cuenta">Retiros</a></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title" id="largeModalLabel">Agregar Transacciones</h5>
+
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <div class="card">
+                        <div class="card-body card-block">
+                            <form action="@Url.Content("~/Cuenta/Add")" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label for="text-input" class=" form-control-label">Cuenta</label></div>
+                                    <div class="col-12 col-md-9"><input type="text" id="CuentaOrigen" name="CuentaOrigen" placeholder="Cuenta" required class="form-control" onkeypress="return validar(event)"></div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label for="text-input" class=" form-control-label">Saldo</label></div>
+                                    <div class="col-12 col-md-9"><input type="text" id="Saldo" name="Saldo" placeholder="Saldo" required class="form-control" onkeypress="return validar(event)"></div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label for="text-input" class=" form-control-label">Valor Retiro</label></div>
+                                    <div class="col-12 col-md-9"><input type="text" id="Valor_Retiro" name="Valor_Retiro" placeholder="Valor del Retiro" required class="form-control" onkeypress="return validar(event)"></div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label for="text-input" class=" form-control-label">GMF</label></div>
+                                    <div class="col-12 col-md-9"><input type="text" id="GMF" name="GMF" placeholder="0" class="form-control" onkeypress="return validar(event)"></div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label for="select" class=" form-control-label">Cliente</label></div>
+                                    <div class="col-12 col-md-9">
+                                        @Html.DropDownListFor(m => m.SelectedClient, new SelectList(Model.ClientList, "IdCliente", "Nombre"), "Seleccione el cliente", new { required = "required", @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label for="select" class=" form-control-label">Banco</label></div>
+                                    <div class="col-12 col-md-9">
+                                        @Html.DropDownListFor(m => m.SelectedBank, new SelectList(Model.BankList, "IdBanco", "Nombre"), "Seleccione el banco", new { required = "required", @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label for="select" class=" form-control-label">Tipo de Operacion</label></div>
+                                    <div class="col-12 col-md-9">
+                                        @Html.DropDownListFor(m => m.SelectedTipo, new SelectList(Model.TipoList, "IdTipo", "Nombre"), "Seleccione el tipo de operacion", new { required = "required", @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label for="select" class=" form-control-label">Cuenta a Realizar</label></div>
+                                    <div class="col-12 col-md-9">
+                                        @Html.DropDownListFor(m => m.SelectedCuenta, new SelectList(Model.TransferenciaList, "IdCuenta", "Nombre"), "Seleccione la cuenta a transferir", new { required = "required", @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div>
+                                    <button style="float: right;" type="submit" class="btn btn-primary btn-sm"><i class="fa fa-save"> </i>&nbsp; Guardar</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                    <div class="danger">
+                        <p class="error">@ViewBag.Error</p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="content">
+    <div class="animated fadeIn">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title"></strong>
+                <a href="AddCuenta" id="BtnAddMatriz" type="button" class="btn btn-primary btn-sm" style="float: right;" data-toggle="modal" data-target="#largeModal"><i class="fa fa-plus"> </i>&nbsp;Agregar Retiros</a>
+
+            </div>
+            <table class="table " id="bootstrap-data-table">
+                <thead>
+                    <tr>
+
+                        <th>Origen</th>
+                        <th>Saldo</th>
+                        <th>Retiro</th>
+                        <th>GMF</th>
+                        <th>Cliente</th>
+                        <th>Banco </th>
+                        <th>Operacion</th>
+                        <th>Destino</th>
+                       <th style="width:auto">Transferir</th>
+                        <th style="width:auto">Retirar</th>
+                        <th style="width:auto">Acciones</th>
+                        @*<th>Estado</th>*@
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var CuentaView in Model.CuentaList)
+                    {
+                    <tr>
+
+                        <td>  <span class="name">@CuentaView.CuentaOrigen</span> </td>
+                        <td>  <span class="name">@CuentaView.Saldo</span> </td>
+                        <td>  <span class="name">@CuentaView.Valor_Retiro</span> </td>
+                        <td>  <span class="name">@CuentaView.GMF</span> </td>
+                        <td>  <span class="name">@CuentaView.NameCliente</span> </td>
+                        <td>  <span class="name">@CuentaView.NameBanco</span> </td>
+                        <td>  <span class="name">@CuentaView.NameTipo</span> </td>
+                        <td>  <span class="name">@CuentaView.NameCuenta</span> </td>
+                        @*<td>  <span class="name">@CuentaView.NameState</span> </td>*@
+                        <td>
+                            <a onclick="document.location='@Url.Content("~/Cuenta/Transferir?IdMovimiento="+CuentaView.IdMovimiento)'" id="BtnAddSkill" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#largeModal" style="float: left;"><i class="fa fa-arrow-circle-o-up"> </i></a>
+
+                        </td>
+                        <td>
+                            <a onclick="document.location='@Url.Content("~/Cuenta/Retirar?IdMovimiento="+CuentaView.IdMovimiento)'" id="BtnAddSkill" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#largeModal" style="float: left;"><i class="fa fa-arrow-circle-o-down"> </i></a>
+
+                        </td>
+                        <td>
+                            <a onclick="document.location='@Url.Content("~/Cuenta/Edit?IdMovimiento="+@CuentaView.IdMovimiento)'" id="BtnEditMatriz" class="btn btn-primary btn-sm" style="float: left"><i class="fa fa-edit"> </i></a>
+                            <a onclick="document.location='@Url.Content("~/Cuenta/Remove?Id="+@CuentaView.IdMovimiento)'" id="BtnAddMatriz" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#largeModal" style="float: right;"><i class="fa fa-remove"> </i></a>
+
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function validar(e) { // 1
+        tecla = (document.all) ? e.keyCode : e.which; // 2
+        if (tecla == 8) return true; // 3
+        patron = /[^-'`~!#$%^&*()_|+=?;:'",.<>\{\}\[\]\\\/]/; // 4
+        te = String.fromCharCode(tecla); // 5
+        return patron.test(te); // 6
+    }
+</script>

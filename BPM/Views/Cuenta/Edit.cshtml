@@ -1,0 +1,103 @@
+﻿@using BPM.Dto.Configuration
+@model CuentaCreationDto
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Editar Matriz de Escalamientos</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="~/Home/Index">Configuración</a></li>
+                            <li><a href="~/Cuenta/Cuenta">Retiros</a></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="content">
+    <div class="card">
+        <div class="card-body card-block">
+            <form action="@Url.Content("~/Cuenta/Edit")" method="post" enctype="multipart/form-data" class="form-horizontal" style="width:60%">
+                <input type="hidden" name="IdMovimiento" value="@Model.CuentaList.FirstOrDefault().IdMovimiento" />
+
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="text-input" class=" form-control-label">Cuenta</label></div>
+                    <div class="col-12 col-md-9"><input type="text" id="CuentaOrigen" name="CuentaOrigen" placeholder="Cuenta" value="@Model.CuentaList.FirstOrDefault().CuentaOrigen" class="form-control" onkeypress="return validar(event)"></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="text-input" class=" form-control-label">Saldo</label></div>
+                    <div class="col-12 col-md-9"><input type="text" id="Saldo" name="Saldo" placeholder="Saldo" value="@Model.CuentaList.FirstOrDefault().Saldo" class="form-control" onkeypress="return validar(event)"></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="text-input" class=" form-control-label">Valor Retiro</label></div>
+                    <div class="col-12 col-md-9"><input type="text" id="Valor_Retiro" name="Valor_Retiro" placeholder="Valor del Retiro" value="@Model.CuentaList.FirstOrDefault().Valor_Retiro" class="form-control" onkeypress="return validar(event)"></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="text-input" class=" form-control-label">GMF</label></div>
+                    <div class="col-12 col-md-9"><input type="text" id="GMF" name="GMF" placeholder="GFM" value="@Model.CuentaList.FirstOrDefault().GMF" class="form-control" onkeypress="return validar(event)"></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="select" class=" form-control-label">Cliente</label></div>
+                    <div class="col-12 col-md-9">
+                        @Html.DropDownListFor(m => m.SelectedClient, new SelectList(Model.ClientList, "IdCliente", "Nombre", Model.CuentaList.FirstOrDefault().IdCliente, "Seleccione el cliente"), new { required = "required", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="select" class=" form-control-label">Banco</label></div>
+                    <div class="col-12 col-md-9">
+                        @Html.DropDownListFor(m => m.SelectedBank, new SelectList(Model.BankList, "IdBanco", "Nombre", Model.CuentaList.FirstOrDefault().IdBanco, "Seleccione el banco"), new { required = "required", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="select" class=" form-control-label">Tipo de Operacion</label></div>
+                    <div class="col-12 col-md-9">
+                        @Html.DropDownListFor(m => m.SelectedTipo, new SelectList(Model.TipoList, "IdTipo", "Nombre", Model.CuentaList.FirstOrDefault().IdTipo, "Seleccione el Tipo de operacion"), new { required = "required", @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="select" class=" form-control-label">Cuenta Destino</label></div>
+                    <div class="col-12 col-md-9">
+                        @Html.DropDownListFor(m => m.SelectedCuenta, new SelectList(Model.TransferenciaList, "IdCuenta", "Nombre", Model.CuentaList.FirstOrDefault().IdCuenta, "Seleccione la cuenta a transferir"), new { required = "required", @class = "form-control" })
+                    </div>
+                </div>
+                <div>
+                    <button style="float: right;" type="submit" class="btn btn-primary btn-sm"><i class="fa fa-save"> </i>&nbsp; Actualizar</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div class="danger">
+        <p class="error">@ViewBag.Error</p>
+    </div>
+
+</div>
+
+
+
+<script type="text/javascript">
+    function validar(e) { // 1
+        tecla = (document.all) ? e.keyCode : e.which; // 2
+        if (tecla == 8) return true; // 3
+        patron = /[^-'`~!#$%^&*()_|+=?;:'",.<>\{\}\[\]\\\/]/; // 4
+        te = String.fromCharCode(tecla); // 5
+        return patron.test(te); // 6
+    }
+</script>
